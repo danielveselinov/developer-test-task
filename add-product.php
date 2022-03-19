@@ -4,7 +4,7 @@
             <div class="d-flex justify-content-between border-bottom py-3">
                 <h1 class="font-weight-bold text-capitalize">Product Add</h1>
                 <div class="d-flex align-items-center">
-                    <button class="btn btn-primary">Save</button>
+                    <button id="product_save" class="btn btn-primary">Save</button>
                     <a href="./index.php" class="btn btn-danger ml-3">Cancel</a>
                 </div>
             </div>
@@ -36,9 +36,9 @@
                     <div class="col-sm-10 col-md-4">
                         <select class="form-control" id="productType">
                             <option selected disabled>Please choose a type</option>
-                            <option value="0" class="filter" data-type="dvd">DVD</option>
-                            <option value="1" class="filter" data-type="book">Book</option>
-                            <option value="2" class="filter" data-type="furniture">Furniture</option>
+                            <option value="1" class="filter" data-type="dvd">DVD</option>
+                            <option value="2" class="filter" data-type="book">Book</option>
+                            <option value="3" class="filter" data-type="furniture">Furniture</option>
                         </select>
                     </div>
                 </div>

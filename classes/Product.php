@@ -9,13 +9,13 @@ abstract class Product
     private $price;
     private $type;
 
-    public function __construct($sku, $name, $price, $type)
+    public function __construct(mixed $sku, string $name, int|float $price, int $type)
     {
         $this->setSku($sku);
         $this->setName($name);
         $this->setPrice($price);
         $this->setType($type);
-    } // Sub-classes should have properies (units) depending on type
+    }
 
     /**
      * Get the value of sku
