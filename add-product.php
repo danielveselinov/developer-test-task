@@ -36,56 +36,58 @@
                     <div class="col-sm-10 col-md-4">
                         <select class="form-control" id="productType">
                             <option selected disabled>Please choose a type</option>
-                            <option value="0">DVD</option>
-                            <option value="1">Book</option>
-                            <option value="2">Furniture</option>
+                            <option value="0" class="filter" data-type="dvd">DVD</option>
+                            <option value="1" class="filter" data-type="book">Book</option>
+                            <option value="2" class="filter" data-type="furniture">Furniture</option>
                         </select>
                     </div>
                 </div>
 
-                <!-- <div class="card col-sm-10 col-md-6">
-                    <div class="form-group row mt-3">
-                        <label for="size" class="col-sm-4 col-form-label">Size (MB)</label>
-                        <div class="col">
-                            <input type="text" class="form-control" id="size">
+                <div id="settings">
+                    <div class="card col-sm-10 col-md-6" data-type="dvd" style="display: none;">
+                        <div class="form-group row mt-3">
+                            <label for="size" class="col-sm-4 col-form-label">Size (MB)</label>
+                            <div class="col">
+                                <input type="text" class="form-control" id="size">
+                            </div>
+                            <p class="text-muted small d-block w-100 mx-3 my-auto">Please, provide size</p>
                         </div>
-                        <p class="text-muted small d-block w-100 mx-3 my-auto">Please, provide size</p>
+                    </div>
+
+                    <div class="card col-sm-10 col-md-6" data-type="furniture" style="display: none;"> 
+                        <div class="form-group mt-3">
+                            <div class="d-flex mt-1">
+                                <label for="height" class="col-sm-4 col-form-label">Height (CM)</label>
+                                <div class="col">
+                                    <input type="text" class="form-control" id="height">
+                                </div>
+                            </div>
+                            <div class="d-flex mt-1">
+                                <label for="width" class="col-sm-4 col-form-label">Width (CM)</label>
+                                <div class="col">
+                                    <input type="text" class="form-control" id="width">
+                                </div>
+                            </div>
+                            <div class="d-flex mt-1">
+                                <label for="length" class="col-sm-4 col-form-label">Length (CM)</label>
+                                <div class="col">
+                                    <input type="text" class="form-control" id="length">
+                                </div>
+                            </div>
+                            <p class="text-muted small mt-3 mx-3 mb-0">Please provide dimensions in HxWxL format</p>
+                        </div>
+                    </div>
+
+                    <div class="card col-sm-10 col-md-6" data-type="book" style="display: none;">
+                        <div class="form-group row mt-3">
+                            <label for="weight" class="col-sm-4 col-form-label">Weight (MB)</label>
+                            <div class="col">
+                                <input type="text" class="form-control" id="weight">
+                            </div>
+                            <p class="text-muted small d-block w-100 mx-3 my-auto">Please, provide weight</p>
+                        </div>
                     </div>
                 </div>
-
-                <div class="card col-sm-10 col-md-6">
-                    <div class="form-group mt-3">
-                        <div class="d-flex mt-1">
-                            <label for="height" class="col-sm-4 col-form-label">Height (CM)</label>
-                            <div class="col">
-                                <input type="text" class="form-control" id="height">
-                            </div>
-                        </div>
-                        <div class="d-flex mt-1">
-                            <label for="width" class="col-sm-4 col-form-label">Width (CM)</label>
-                            <div class="col">
-                                <input type="text" class="form-control" id="width">
-                            </div>
-                        </div>
-                        <div class="d-flex mt-1">
-                            <label for="length" class="col-sm-4 col-form-label">Length (CM)</label>
-                            <div class="col">
-                                <input type="text" class="form-control" id="length">
-                            </div>
-                        </div>
-                        <p class="text-muted small mt-3 mx-3 mb-0">Please provide dimensions in HxWxL format</p>
-                    </div>
-                </div>
-
-                <div class="card col-sm-10 col-md-6">
-                    <div class="form-group row mt-3">
-                        <label for="weight" class="col-sm-4 col-form-label">Weight (MB)</label>
-                        <div class="col">
-                            <input type="text" class="form-control" id="weight">
-                        </div>
-                        <p class="text-muted small d-block w-100 mx-3 my-auto">Please, provide weight</p>
-                    </div>
-                </div> -->
             </form>
         </div>
     </section>
