@@ -7,7 +7,7 @@ $connection = Connection::connect();
 $stmt = $connection->query("SELECT * FROM products WHERE 1");
 
 if ($stmt->rowCount() > 0) {
-    while ($row = $stmt->fetch()) {
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         echo "<div class='col-3 col-md-3 mt-4'>
             <div class='card'>
                 <input type='checkbox' name='' class='delete-checkbox custom-checkbox mt-3 mx-3'>
