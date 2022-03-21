@@ -1,4 +1,8 @@
-<?php $title = "Product List Page"; require __DIR__ . "/layouts/head.php"; ?>
+<?php 
+    $title = "Product List Page"; 
+    require __DIR__ . "/layouts/head.php"; 
+    require_once __DIR__ . "/database/connection.php"; 
+?>
     <section class="py-5">
         <div class="container">
             <div class="d-flex justify-content-between border-bottom py-3">
@@ -10,18 +14,7 @@
             </div>
 
             <div class="row">
-                <div class="col-3 col-md-3 mt-4">
-                    <div class="card">
-                        <input type="checkbox" name="" class="delete-checkbox custom-checkbox mt-3 mx-3">
-                        <div class="text-center p-3">
-                            <p class="m-0">SKU</p>
-                            <p class="m-0">Name</p>
-                            <p class="m-0">Price $</p>
-                            <p class="m-0">Size</p>
-                        </div>
-                    </div>
-                </div>
-                
+                <?php require_once __DIR__ . "/components/product-list.php"; ?>                
             </div>
         </div>
     </section>
