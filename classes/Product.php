@@ -2,7 +2,11 @@
 
 namespace MyApp;
 
-abstract class Product 
+require_once __DIR__ . "/../interfaces/Savable.php";
+
+use \MyApp\Savable;
+
+abstract class Product implements Savable
 {
     private $sku;
     private $name;

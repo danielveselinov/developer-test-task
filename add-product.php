@@ -80,7 +80,7 @@
 
                     <div class="card col-sm-10 col-md-6" data-type="book" style="display: none;">
                         <div class="form-group row mt-3">
-                            <label for="weight" class="col-sm-4 col-form-label">Weight (MB)</label>
+                            <label for="weight" class="col-sm-4 col-form-label">Weight (KG)</label>
                             <div class="col">
                                 <input type="text" class="form-control" id="weight">
                             </div>

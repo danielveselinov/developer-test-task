@@ -16,7 +16,6 @@ class Book extends Product
         $this->setWeigth($weigth);
     }
 
-
     /**
      * Get the value of weigth
      */ 
@@ -35,5 +34,10 @@ class Book extends Product
         $this->weigth = $weigth;
 
         return $this;
+    }
+
+    public function getData()
+    {
+        
     }
 }

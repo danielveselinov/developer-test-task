@@ -6,7 +6,7 @@ require_once __DIR__ . "/Product.php";
 
 use \MyApp\Product;
 
-class Furniture extends Product 
+class Furniture extends Product
 {
     private $heigth;
     private $width;
@@ -79,5 +79,10 @@ class Furniture extends Product
         $this->length = $length;
 
         return $this;
+    }
+
+    public function getData()
+    {
+        
     }
 }

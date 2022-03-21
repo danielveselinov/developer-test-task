@@ -35,4 +35,9 @@ class DVD extends Product
 
         return $this;
     }
+
+    public function getData()
+    {
+        
+    }
 }
