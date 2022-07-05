@@ -1,3 +1,12 @@
+create TABLE switch (
+	`id` INT NOT NULL AUTO_INCREMENT ,
+    `title` varchar(255) NOT NULL ,
+    
+     PRIMARY KEY (`id`)
+);
+
+INSERT INTO switch(title) VALUES ('DVD'), ('Furniture'), ('Book');
+
 create TABLE dvd (
 	`id` INT NOT NULL AUTO_INCREMENT ,
     `sizeMB` int NOT NULL ,
