@@ -22,8 +22,7 @@ create TABLE book (
 );
 
 
-CREATE TABLE 
-`scandiweb`.`products` ( 
+CREATE TABLE `products` ( 
     `id` INT NOT NULL AUTO_INCREMENT , 
     `sku` VARCHAR(255) NOT NULL , 
     `name` VARCHAR(255) NOT NULL , 
