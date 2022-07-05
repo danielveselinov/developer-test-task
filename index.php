@@ -19,4 +19,4 @@
         </div>
     </section>
 <?php require __DIR__ . "/layouts/footer.php"; ?>
-    
+<script src="./mass-delete.js"></script>

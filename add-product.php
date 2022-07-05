@@ -1,7 +1,7 @@
 <?php $title = "Product Add Page"; require __DIR__ . "/layouts/head.php"; ?>
     <section class="py-5">
         <div class="container">
-            <form action="./process/_addproduct.php" method="POST" id="product_form">
+            <form method="POST" id="product_form">
                 <div class="d-flex justify-content-between border-bottom py-3">
                     <h1 class="font-weight-bold text-capitalize">Product Add</h1>
                     <div class="d-flex align-items-center">
@@ -36,15 +36,15 @@
                     <div class="col-sm-10 col-md-4">
                         <select class="form-control" id="productType" name="productType" required>
                             <option selected disabled>Please choose a type</option>
-                            <option value="1" class="filter" data-type="dvd">DVD</option>
-                            <option value="2" class="filter" data-type="book">Book</option>
-                            <option value="3" class="filter" data-type="furniture">Furniture</option>
+                            <option value="1">DVD</option>
+                            <option value="2">Furniture</option>
+                            <option value="3">Book</option>
                         </select>
                     </div>
                 </div>
 
                 <div id="settings">
-                    <div class="card col-sm-10 col-md-6" data-type="dvd" style="display: none;">
+                    <div class="card col-sm-10 col-md-6" id="dvd" style="display: none;">
                         <div class="form-group row mt-3">
                             <label for="size" class="col-sm-4 col-form-label">Size (MB)</label>
                             <div class="col">
@@ -54,7 +54,7 @@
                         </div>
                     </div>
 
-                    <div class="card col-sm-10 col-md-6" data-type="furniture" style="display: none;"> 
+                    <div class="card col-sm-10 col-md-6" id="furniture" style="display: none;"> 
                         <div class="form-group mt-3">
                             <div class="d-flex mt-1">
                                 <label for="height" class="col-sm-4 col-form-label">Height (CM)</label>
@@ -78,7 +78,7 @@
                         </div>
                     </div>
 
-                    <div class="card col-sm-10 col-md-6" data-type="book" style="display: none;">
+                    <div class="card col-sm-10 col-md-6" id="book" style="display: none;">
                         <div class="form-group row mt-3">
                             <label for="weigth" class="col-sm-4 col-form-label">Weight (KG)</label>
                             <div class="col">
