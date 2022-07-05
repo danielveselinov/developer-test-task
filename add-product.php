@@ -14,7 +14,7 @@ $connection = Connection::connect(); ?>
                 <h1 class="font-weight-bold text-capitalize">Product Add</h1>
                 <div class="d-flex align-items-center">
                     <button type="submit" id="product_save" class="btn btn-primary">Save</button>
-                    <a href="/index.php" class="btn btn-danger ml-3">Cancel</a>
+                    <a href="./index.php" class="btn btn-danger ml-3">Cancel</a>
                 </div>
             </div>
 

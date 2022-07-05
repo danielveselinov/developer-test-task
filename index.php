@@ -8,7 +8,7 @@ require_once __DIR__ . "/database/connection.php";
         <div class="d-flex justify-content-between border-bottom py-3">
             <h1 class="font-weight-bold text-capitalize">Product list</h1>
             <div class="d-flex align-items-center">
-                <a href="/add-product.php" class="btn btn-primary">ADD</a>
+                <a href="./add-product.php" class="btn btn-primary">ADD</a>
                 <button id="delete-product-btn" class="btn btn-danger ml-3">MASS DELETE</button>
             </div>
         </div>
