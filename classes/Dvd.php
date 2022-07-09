@@ -4,7 +4,6 @@ namespace MyApp;
 
 require_once __DIR__ . "/Product.php";
 
-use MyApp\Connection\Connection;
 use \MyApp\Product;
 
 class DVD extends Product 
@@ -15,35 +14,6 @@ class DVD extends Product
     {
         parent::__construct($sku, $name, $price, $type);
         $this->setSize($size);
-    }
-
-    public static function insert($request) 
-    {
-        $connection = Connection::connect();
-
-        $stmt = $connection->prepare('SELECT sku FROM products WHERE sku = ?');
-        $stmt->execute([$request['sku']]);
-
-        if ($stmt->rowCount() != 0) {
-            echo json_encode(['auth' => false, 'message' => 'Inserted SKU already exists']);
-            exit;
-        }
-
-        $stmt = $connection->prepare('INSERT INTO dvd(sizeMB) VALUES(?)');
-        
-        if ($stmt->execute([$request['size']])) {
-            $is_dvd = $connection->lastInsertId();
-
-            $stmt = $connection->prepare('INSERT INTO products(sku, name, price, is_dvd) VALUES(?, ?, ?, ?)');
-            $stmt->execute([$request['sku'], $request['name'], $request['price'], $is_dvd]);
-
-            echo json_encode(['auth' => true]);
-            exit;
-
-        }
-
-        echo json_encode(['auth' => false, 'message' => 'An error occurred']);
-        exit;
     }
 
     /**

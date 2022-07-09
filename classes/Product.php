@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace MyApp;
 
@@ -6,6 +6,7 @@ require_once __DIR__ . "/../interfaces/Savable.php";
 
 use MyApp\Connection\Connection;
 use \MyApp\Savable;
+use PDO;
 
 abstract class Product implements Savable
 {
@@ -22,9 +23,149 @@ abstract class Product implements Savable
         $this->setType($type);
     }
 
+    public static function listAll()
+    {
+        $connection = Connection::connect();
+
+        $stmt = $connection->query("SELECT products.*,
+        CASE
+        WHEN `products`.`is_book` IS NOT NULL 
+        THEN 
+            CONCAT('Weight: ', `book`.`weight`, ' KG')
+        WHEN
+            `products`.`is_furniture` IS NOT NULL
+        THEN
+            CONCAT('Dimension: ',
+                `furniture`.`height`,
+                'x',
+                `furniture`.`width`,
+                'x',
+                `furniture`.`length`)
+        ELSE CONCAT('Size: ',
+                    `dvd`.`sizeMB`, ' MB')
+        END AS attributes
+        FROM `products` 
+        LEFT JOIN `book` ON `products`.`is_book` = `book`.`id`
+        LEFT JOIN `dvd` ON `products`.`is_dvd` = `dvd`.`id`
+        LEFT JOIN `furniture` ON `products`.`is_furniture` = `furniture`.`id`
+            WHERE 1;
+        ");
+
+
+        if ($stmt->rowCount() > 0) {
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                echo "<div class='col-3 col-md-3 mt-4'>
+                    <div class='card'>
+                        <input type='checkbox' class='delete-checkbox' data-id='{$row['id']}'/>
+                        <div class='text-center p-3'>
+                            <p class='m-0'>{$row["sku"]}</p>
+                            <p class='m-0'>{$row["name"]}</p>
+                            <p class='m-0'>{$row["price"]}\$</p>
+                            <p class='m-0'>{$row["attributes"]}</p>
+                        </div>
+                    </div>
+                </div>";
+            }
+        }
+    }
+
+    public static function massDelete($request) 
+    {
+        $connection = Connection::connect();
+        $stmt = $connection->prepare('DELETE FROM products WHERE id IN ('.join(',', $request['filter_options']).')');
+
+        if (!$stmt->execute()) {
+            echo json_encode(['auth' => false, 'message' => 'An error occurred']);
+            exit;
+        }
+
+        echo json_encode(['auth' => true]);
+        exit;
+    }
+
+    public static function emptyFields($data)
+    {
+        $flag = false;
+    
+        foreach ($data as $value) {
+            if (isset($value)) {
+                if (empty($value)) {
+                    $flag = true;
+                } 
+            }
+        }
+    
+        if ($flag) {
+            echo json_encode(['auth' => false, 'message' => 'Please, submit required data']);
+            exit;
+        }
+    }
+
+    public static function insert($table, $request)
+    {
+        
+        self::emptyFields($request);
+
+        $connection = Connection::connect();
+
+        $stmt = $connection->prepare('SELECT sku FROM products WHERE sku = ?');
+        $stmt->execute([$request['sku']]);
+
+        if ($stmt->rowCount() != 0) {
+            echo json_encode(['auth' => false, 'message' => 'Inserted SKU already exists']);
+            exit;
+        }
+
+        switch ($table) {
+            case 'dvd':
+                $stmt = $connection->prepare('INSERT INTO dvd(sizeMB) VALUES(?)');
+        
+                if ($stmt->execute([$request['size']])) {
+                    $is_dvd = $connection->lastInsertId();
+
+                    $stmt = $connection->prepare('INSERT INTO products(sku, name, price, is_dvd) VALUES(?, ?, ?, ?)');
+                    $stmt->execute([$request['sku'], $request['name'], $request['price'], $is_dvd]);
+
+                    echo json_encode(['auth' => true]);
+                }
+                break;
+
+            case 'furniture':
+                $stmt = $connection->prepare('INSERT INTO furniture(height, width, length) VALUES(?, ?, ?)');
+        
+                if ($stmt->execute([$request['height'], $request['width'], $request['length']])) {
+                    $is_furniture = $connection->lastInsertId();
+
+                    $stmt = $connection->prepare('INSERT INTO products(sku, name, price, is_furniture) VALUES(?, ?, ?, ?)');
+                    $stmt->execute([$request['sku'], $request['name'], $request['price'], $is_furniture]);
+
+                    echo json_encode(['auth' => true]);
+                }
+                break;
+            
+            case 'book':
+                $stmt = $connection->prepare('INSERT INTO book(weight) VALUES(?)');
+        
+                if ($stmt->execute([$request['weight']])) {
+                    $is_book = $connection->lastInsertId();
+
+                    $stmt = $connection->prepare('INSERT INTO products(sku, name, price, is_book) VALUES(?, ?, ?, ?)');
+                    $stmt->execute([$request['sku'], $request['name'], $request['price'], $is_book]);
+
+                    echo json_encode(['auth' => true]);
+                }
+                break;
+            
+            default:
+                echo json_encode(['auth' => false, 'message' => 'An error occurred']);
+                break;
+        }
+
+    }
+
     /**
      * Get the value of sku
-     */ 
+     */
     public function getSku()
     {
         return $this->sku;
@@ -34,7 +175,7 @@ abstract class Product implements Savable
      * Set the value of sku
      *
      * @return  self
-     */ 
+     */
     public function setSku($sku)
     {
         $this->sku = $sku;
@@ -44,7 +185,7 @@ abstract class Product implements Savable
 
     /**
      * Get the value of name
-     */ 
+     */
     public function getName()
     {
         return $this->name;
@@ -54,7 +195,7 @@ abstract class Product implements Savable
      * Set the value of name
      *
      * @return  self
-     */ 
+     */
     public function setName($name)
     {
         $this->name = $name;
@@ -64,7 +205,7 @@ abstract class Product implements Savable
 
     /**
      * Get the value of price
-     */ 
+     */
     public function getPrice()
     {
         return $this->price;
@@ -74,7 +215,7 @@ abstract class Product implements Savable
      * Set the value of price
      *
      * @return  self
-     */ 
+     */
     public function setPrice($price)
     {
         $this->price = $price;
@@ -84,7 +225,7 @@ abstract class Product implements Savable
 
     /**
      * Get the value of type
-     */ 
+     */
     public function getType()
     {
         return $this->type;
@@ -94,7 +235,7 @@ abstract class Product implements Savable
      * Set the value of type
      *
      * @return  self
-     */ 
+     */
     public function setType($type)
     {
         $this->type = $type;

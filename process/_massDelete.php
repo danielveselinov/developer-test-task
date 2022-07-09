@@ -1,6 +1,7 @@
 <?php
 
 use MyApp\Connection\Connection;
+use MyApp\Product;
 
 require_once __DIR__ . "/../autoload.php";
 
@@ -10,18 +11,6 @@ if ($_SERVER['REQUEST_METHOD'] != "POST") {
 }
 
 
-if ($_POST['process'] === 'massDelete') {    
-
-    $connection = Connection::connect();
-
-    $stmt = $connection->prepare('DELETE FROM products WHERE id IN ('.join(',', $_POST['filter_options']).')');
-
-    if (!$stmt->execute()) {
-        echo json_encode(['auth' => false, 'message' => 'An error occurred']);
-        exit;
-    }
-
-    echo json_encode(['auth' => true]);
-    exit;
-    
+if ($_POST['process'] === 'massDelete') {
+    Product::massDelete($_POST);
 }
