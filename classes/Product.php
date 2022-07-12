@@ -2,20 +2,17 @@
 
 namespace MyApp;
 
-require_once __DIR__ . "/../interfaces/Savable.php";
-
 use MyApp\Connection\Connection;
-use \MyApp\Savable;
 use PDO;
 
-abstract class Product implements Savable
+abstract class Product
 {
     private $sku;
     private $name;
     private $price;
     private $type;
 
-    public function __construct(mixed $sku, string $name, int|float $price, int $type)
+    public function __construct(mixed $sku, string $name, int|float|string $price, int|string $type)
     {
         $this->setSku($sku);
         $this->setName($name);
@@ -83,7 +80,7 @@ abstract class Product implements Savable
         exit;
     }
 
-    public static function emptyFields($data)
+    public function emptyFields($data)
     {
         $flag = false;
     
@@ -100,69 +97,7 @@ abstract class Product implements Savable
             exit;
         }
     }
-
-    public static function insert($table, $request)
-    {
-        
-        self::emptyFields($request);
-
-        $connection = Connection::connect();
-
-        $stmt = $connection->prepare('SELECT sku FROM products WHERE sku = ?');
-        $stmt->execute([$request['sku']]);
-
-        if ($stmt->rowCount() != 0) {
-            echo json_encode(['auth' => false, 'message' => 'Inserted SKU already exists']);
-            exit;
-        }
-
-        switch ($table) {
-            case 'dvd':
-                $stmt = $connection->prepare('INSERT INTO dvd(sizeMB) VALUES(?)');
-        
-                if ($stmt->execute([$request['size']])) {
-                    $is_dvd = $connection->lastInsertId();
-
-                    $stmt = $connection->prepare('INSERT INTO products(sku, name, price, is_dvd) VALUES(?, ?, ?, ?)');
-                    $stmt->execute([$request['sku'], $request['name'], $request['price'], $is_dvd]);
-
-                    echo json_encode(['auth' => true]);
-                }
-                break;
-
-            case 'furniture':
-                $stmt = $connection->prepare('INSERT INTO furniture(height, width, length) VALUES(?, ?, ?)');
-        
-                if ($stmt->execute([$request['height'], $request['width'], $request['length']])) {
-                    $is_furniture = $connection->lastInsertId();
-
-                    $stmt = $connection->prepare('INSERT INTO products(sku, name, price, is_furniture) VALUES(?, ?, ?, ?)');
-                    $stmt->execute([$request['sku'], $request['name'], $request['price'], $is_furniture]);
-
-                    echo json_encode(['auth' => true]);
-                }
-                break;
-            
-            case 'book':
-                $stmt = $connection->prepare('INSERT INTO book(weight) VALUES(?)');
-        
-                if ($stmt->execute([$request['weight']])) {
-                    $is_book = $connection->lastInsertId();
-
-                    $stmt = $connection->prepare('INSERT INTO products(sku, name, price, is_book) VALUES(?, ?, ?, ?)');
-                    $stmt->execute([$request['sku'], $request['name'], $request['price'], $is_book]);
-
-                    echo json_encode(['auth' => true]);
-                }
-                break;
-            
-            default:
-                echo json_encode(['auth' => false, 'message' => 'An error occurred']);
-                break;
-        }
-
-    }
-
+    
     /**
      * Get the value of sku
      */

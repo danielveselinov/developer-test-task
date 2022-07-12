@@ -38,49 +38,25 @@ $(function() {
         if (productType === null) {
             alert('Please, provide the data of indicated type')
             return
+        } 
 
-        } else if (productType === '1') {
-            $.post('./process/_addproduct.php', {
-                process: 'dvdInsert', sku, name, price, productType, size
-            }).then((response) => {
-                
-                let data = JSON.parse(response)
-                if (data.auth) {
-                    alert('Successfully passed')
-                } else if (!data.auth && data.message) {
-                    alert(data.message)
-                }
-            }).catch((err) => {
-                alert(err)
-            })
-        } else if (productType === '2') {
-            $.post('./process/_addproduct.php', {
-                process: 'furnitureInsert', sku, name, price, productType, height, width, length
-            }).then((response) => {
-                let data = JSON.parse(response)
-    
-                if (data.auth) {
-                    alert('Successfully passed')
-                } else if (!data.auth && data.message) {
-                    alert(data.message)
-                }
-            }).catch((err) => {
-                alert(err)
-            })
-        } else if (productType === '3') {
-            $.post('./process/_addproduct.php', {
-                process: 'bookInsert', sku, name, price, productType, weight
-            }).then((response) => {
-                let data = JSON.parse(response)
-    
-                if (data.auth) {
-                    alert('Successfully passed')
-                } else if (!data.auth && data.message) {
-                    alert(data.message)
-                }
-            }).catch((err) => {
-                alert(err)
-            })
-        }
+        $.post('./process/_addproduct.php', {
+            sku, name, price, productType,
+            size,
+            height,
+            width,
+            length,
+            weight
+        }).then((response) => {
+            let data = JSON.parse(response)
+
+            if (data.auth) {
+                alert('Successfully passed')
+            } else if (!data.auth && data.message) {
+                alert(data.message)
+            }
+        }).catch((err) => {
+            alert(err)
+        })
     })
 })

@@ -13,12 +13,37 @@ class Furniture extends Product
     private $width;
     private $length;
 
-    public function __construct($sku, $name, $price, $type, int|float $heigth, int|float $width, int|float $length)
+    public function __construct($sku, $name, $price, $type, int|float|string $heigth, int|float|string $width, int|float|string $length)
     {
         parent::__construct($sku, $name, $price, $type);
         $this->setHeigth($heigth);
         $this->setWidth($width);
         $this->setLength($length);
+    }
+
+    public function save()
+    {
+        $connection = Connection::connect();
+
+        $stmt = $connection->prepare('SELECT sku FROM products WHERE sku = ?');
+        $stmt->execute([$this->getSku()]);
+
+        if ($stmt->rowCount() != 0) {
+            echo json_encode(['auth' => false, 'message' => 'Inserted SKU already exists']);
+            exit;
+        }
+
+        $stmt = $connection->prepare('INSERT INTO furniture(height, width, length) VALUES(?, ?, ?)');
+        
+        if ($stmt->execute([$this->getHeigth(), $this->getWidth(), $this->getLength()])) {
+            $is_furniture = $connection->lastInsertId();
+
+            $stmt = $connection->prepare('INSERT INTO products(sku, name, price, is_furniture) VALUES(?, ?, ?, ?)');
+            $stmt->execute([$this->getSku(), $this->getName(), $this->getPrice(), $is_furniture]);
+
+            echo json_encode(['auth' => true]);
+            exit;
+        }
     }
 
     /**
@@ -79,10 +104,5 @@ class Furniture extends Product
         $this->length = $length;
 
         return $this;
-    }
-
-    public function getData()
-    {
-        
     }
 }

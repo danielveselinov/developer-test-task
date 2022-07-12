@@ -10,10 +10,21 @@ if ($_SERVER['REQUEST_METHOD'] != "POST") {
     redirect("../add-product.php");
 }
 
-if ($_POST['process'] === 'dvdInsert') {
-    DVD::insert('dvd', $_POST);
-} else if ($_POST['process'] === 'furnitureInsert') {
-    Furniture::insert('furniture', $_POST);
-} else if ($_POST['process'] === 'bookInsert') {
-    Book::insert('book', $_POST);
+if ($_POST['productType'] == '1') {
+    
+    $object = new DVD($_POST['sku'], $_POST['name'], $_POST['price'], $_POST['productType'], $_POST['size']);
+    $object->emptyFields([$_POST['sku'], $_POST['name'], $_POST['price'], $_POST['productType'], $_POST['size']]);
+    
+} else if ($_POST['productType'] == '2') {
+   
+    $object = new Furniture($_POST['sku'], $_POST['name'], $_POST['price'], $_POST['productType'], $_POST['height'], $_POST['width'], $_POST['length']);
+    $object->emptyFields([$_POST['sku'], $_POST['name'], $_POST['price'], $_POST['productType'], $_POST['height'], $_POST['width'], $_POST['length']]);
+    
+} else if ($_POST['productType'] == '3') {
+    
+    $object = new Book($_POST['sku'], $_POST['name'], $_POST['price'], $_POST['productType'], $_POST['weight']);
+    $object->emptyFields([$_POST['sku'], $_POST['name'], $_POST['price'], $_POST['productType'], $_POST['weight']]);
+    
 }
+
+$object->save();
